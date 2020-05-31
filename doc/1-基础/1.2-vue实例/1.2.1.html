@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.2.1-实例-数据和方法</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+</head>
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>this.$data.a == this.a</h3>
+        <p>当前点击次数：{{clickCount1}}</p>
+        <button v-on:click='click1'>点我+1</button>
+        <button v-on:click='click2'>点我也+1</button>
+        <h3>this.$data.a !== this.a</h3>
+        <!-- 两者还是有些差别的 -->
+        <p>请看控制台</p>
+        <button v-on:click='randomClick1'>点击</button>
+        <button v-on:click='randomClick2'>点我才能改变</button>
+
+    </div>
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            //点击次数
+            clickCount1: 0,
+        },
+        methods: {
+            click1: function(){
+                this.$data.clickCount1 += 1;
+            },
+            click2: function(){
+                this.clickCount1 += 1;
+            },
+            //只有当实例被创建时就已经存在于 data 中的 属性 才是响应式的
+            //只有属性是响应式的this.$data.a  == this.a
+            //否则只能通过this.$data.b的方式更改b的值，this.b是undefined
+            randomClick1: function(){
+                this.randomNum = Math.ceil(Math.random()*1000); 
+                console.log(this.$data);
+            },
+            randomClick2: function(){
+                this.$data.randomNum = Math.ceil(Math.random()*1000); 
+                console.log(this.$data);
+            },
+        }
+    })
+</script>
+</html>

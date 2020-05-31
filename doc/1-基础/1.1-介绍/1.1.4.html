@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.1.4-介绍-组件</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>组件注册示例</h3>
+        <way1-component></way1-component>
+        <way2-component></way2-component>
+        <way3-component></way3-component>
+    </div>
+    <!-- 写在app外面的组件都不会显示 -->
+    <way1-component></way1-component>
+    <way2-component></way2-component>
+    <way3-component></way3-component>
+</body>
+<script>
+    // 方法一：通过Vue.component全局注册组件
+    // 组件应该挂载到某个Vue实例下，否则它不会生效。因为是全局注册，所以实例化vm后它自动继承该组件，不需要执行其他操作即可使用
+    // 使用Vue.component()注册组件时，需要提供2个参数，第1个参数时组件的标签(组件id)，第2个参数是组件构造器或者直接使用包含template的选项对象(语法糖)
+    // 所以这段代码是等价的，因为未注释的代码，Vue在背后会自动地调用Vue.extend()
+    // Vue.component('way1-component', Vue.extend({
+    //     template: '<p>通过Vue.component注册的组件</p>'
+    // }))
+    Vue.component('way1-component', {
+        template: '<p>通过Vue.component注册的组件</p>'
+    })
+    // 方法二：通过Vue.extend返回一个组件构造器
+    // Vue.extend是一个工厂方法
+    // 可以作为way1的构造器参数，也可以way3的一个组件构造器
+    var way2 = Vue.extend({
+        template: '<p>通过Vue.extend注册的组件</p>'
+    })
+    // 方法三：通过vm.$components创建子组件（常用）
+
+    // 方法四：通过render创建函数组件
+    // 略
+    // 方法五：通过.vue引入组件
+    // 略
+    // 使用new Vue创建一个Vue实例
+    // 一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+
+        },
+        components: {
+            //方法二 - 想要使用way2需要给它定义一个id
+            'way2-component': way2,
+            //方法三 - key为组件的id，value是一个组件。或如way2，是一个组件构造器返回的子类
+            'way3-component': {
+                template: '<p>通过vm.$components注册的组件</p>'
+            }
+        }
+    })
+</script>
+
+</html>

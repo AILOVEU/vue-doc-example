@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.1.3-介绍-点击事件</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>按钮点击响应示例</h3>
+        <p>{{msg}}</p>
+        <!-- 括号可有可无 -->
+        <!-- 如果想要获取点击事件，可以加$event传值，method中通过e接收 -->
+        <button v-on:click='reverseMsg'>反转字符串</button>
+        <button v-on:click='reverseMsg()'>反转字符串</button>
+        <button v-on:click='reverseMsg($event)'>反转字符串</button>
+    </div>
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            msg: 'Hello Vue'
+        },
+        //定义该实例下的方法
+        methods: {
+            //方法中的 this 自动绑定为 Vue 实例。
+            //★不应该使用箭头函数来定义 method 函数 ,理由是箭头函数绑定了父级作用域的上下文，所以 this 将不会按照期望指向 Vue 实例
+            reverseMsg: function(e){
+                //this.msg.split('') -- 返回['H','e','l'....]
+                //his.msg.split('').reverse() -- 返回['e','u','V'....]
+                //join将数组以空字符串拼接
+                this.msg = this.msg.split('').reverse().join('');
+                console.log(e);
+            }
+        }
+    })
+</script>
+
+</html>
