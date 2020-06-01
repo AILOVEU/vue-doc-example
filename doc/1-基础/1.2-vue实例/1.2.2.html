@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1.1.2-介绍-条件与循环</title>
+    <title>1.2.2-实例-生命周期</title>
     <!-- 引入资源 -->
     <script src='./vue@2.6.10.js'></script>
 </head>
@@ -12,21 +12,11 @@
 <body>
     <!-- 定义根DOM元素 -->
     <div id="app">
-        <h3>1.条件示例</h3>
-        <div v-if='seen'>
-            现在你看到我了。将data中的seen改为false，你就看不到我了
-        </div>
-        <p>----------</p>
-        <h3>2.循环示例</h3>
-        <div>
-            <p>这是我的兴趣爱好：</p>
-            <div v-for='hobby in hobbies'>
-                {{hobby}}
-            </div>
-        </div>
-
+        <h3>this.$data.a == this.a</h3>
+        <p>当前点击次数：{{clickCount1}}</p>
 
     </div>
+
 </body>
 <script>
     //使用new Vue创建一个Vue实例
@@ -36,9 +26,22 @@
         el: '#app',
         //定义数据
         data: {
-            seen: true,
-            hobbies: ['早起','上班','写代码']
+
+        },
+        //定义方法
+        methods: {
+
+        },
+        created: function(){
+
+        },
+        mounted: function(){
+
+        },
+        destroyed: function(){
+
         }
+
     })
 </script>
 
