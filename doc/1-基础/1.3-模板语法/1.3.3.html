@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.3.3-模板语法-计算属性和监听器</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>1.计算属性</h3>
+        <div>
+            <h5>hello world的倒写</h5>
+            <div>{{msgReverse}}</div>
+            <h5>不会动的当前时间</h5>
+            <div>{{curTime}}</div>
+            <p>--------</p>
+        </div>
+
+        <h3>2.计算属性拓展</h3>
+        <div>
+            <h5>hello vue的倒写</h5>
+            <div>{{proMsgReverse}}</div>
+            <button v-on:click='computedSet'>hello jikewang</button>
+            <p>--------</p>
+        </div>
+
+        <h3>3.监听属性</h3>
+        <div>
+            <input type='number' v-model='firstNum' />+0={{sum}}
+            <p>--------</p>
+        </div>
+
+
+    </div>
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            msg: 'Hello World',
+            proMsg: 'Hello Vue',
+            firstNum: 0,
+            sum: 0
+        },
+        methods: {
+            computedSet: function () {
+                this.proMsgReverse = 'hello wangjike'
+            }
+        },
+        //计算属性通过computed定义
+        computed: {
+            //计算属性通过function返回，但在模板中你可以像使用data属性一样使用计算属性
+            //★计算属性是基于它们的响应式依赖进行缓存的，只在相关响应式依赖发生改变时它们才会重新求值
+            msgReverse: function () {
+                //只要msg的值变动，msgReverse的值也会响应的变动
+                return this.msg.split('').reverse().join('');
+            },
+            curTime: function () {
+                return Date.now()
+            },
+            proMsgReverse: {
+                get: function () {
+                    console.log(this.proMsg);
+                    return this.proMsg.split('').reverse().join('');
+                },
+                set: function (val) {
+                    this.proMsg = val.split('').reverse().join('');
+                }
+            }
+        },
+        //监听属性通过watch定义
+        watch: {
+            //只要firstNum变化，就执行这个方法
+            firstNum: function (val) {
+                //值得注意的，val是输入的值，你监听到的新值
+                console.log(val);
+                this.sum = parseInt(this.firstNum) + 0;
+            }
+        }
+
+    })
+</script>
+
+</html>

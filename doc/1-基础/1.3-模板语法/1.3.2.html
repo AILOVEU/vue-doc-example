@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.3.2-模板语法-指令</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>1.v-bind/v-on基本用法与缩写</h3>
+        <div>
+            <a v-bind:href="url" target="blank">点我跳转</a>
+            <button v-on:click='clickEvent'>点我</button>
+
+            <h5>缩写--效果一致</h5>
+            <a :href="url" target="blank">点我跳转</a>
+            <button @click='clickEvent'>点我</button>
+            <p>--------</p>
+        </div>
+        
+        <h3>2.动态参数</h3>
+        <!-- ★直接在一个 HTML 文件里撰写模板,动态属性/动态方法变量名必须全部小写 -->
+        <!-- 禁止使用驼峰和分割符 -->
+        <div>
+            <a v-bind:[attrname]="url" target="blank">点我跳转</a>
+            <button v-on:[eventname]="clickEvent">点我</button>
+            <h5>如果动态属性为null</h5>
+            <a v-bind:href="nullname">属性绑定将会被移除</a>
+            <p>--------</p>
+        </div>
+
+        <h3>3.prevent修饰符</h3>
+        <div>
+            <input type="checkbox" v-on:click='clickEvent'>可以点我</button>
+            <input type="checkbox" v-on:click='clickEvent2'>点我</button>
+            <!-- 效果和e.preventDefalut()一样 -->
+            <input type="checkbox" v-on:click.prevent='clickEvent'>点我</button>
+            <p>--------</p>
+        </div>
+    </div>
+
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            url: 'http://ailoveu.top',
+            attrname: 'href',
+            eventname: 'click',
+            nullname: null
+
+        },
+        methods: {
+            clickEvent: function(){
+                alert(`当前时间戳：${Date.now()}`);
+            },
+            clickEvent2: function(e){
+                e.preventDefault();
+                alert(`当前时间戳：${Date.now()}`);
+            }
+ 
+        },
+
+    })
+</script>
+
+</html>
