@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.5.2-Class与Style-组件</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+    <style>
+        .redC {
+            color: red;
+        }
+
+        .bigFont {
+            font-size: 50px;
+        }
+        .borderClass{
+            border: 3px solid blue;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>1.基本用法</h3>
+        <div>
+            <class-component v-bind:class="[redC]"></class-component>
+        </div>
+    </div>
+
+    <!-- 模板的一种用法，之后我举得例子都会采取这种方式 -->
+    <template id='classCompt'>
+        <!-- 使用数组用法，必须加v-bind -->
+        <div v-bind:class='["bigFont","borderClass"]'>
+            这是一段话
+        </div>
+    </template>
+
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            redC: 'redC'
+        },
+        methods: {
+
+        },
+        components: {
+            //自定义组件的标签名
+            'class-component': {
+                //通过id查询template引用模板
+                template: '#classCompt',
+
+            }
+        }
+
+    })
+</script>
+
+</html>

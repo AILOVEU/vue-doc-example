@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.5.4-Class与Style-样式兼容</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>1.vue自动添加css前缀</h3>
+        <!-- ？为什么没有效果呢，热心的网友麻烦解答下 -->
+        <div>
+            <div v-bind:style="styleObj">这是一段话</div>
+            <p>--------</p>
+        </div>
+
+        <h3>2.样式多重值</h3>
+        <div>
+            <div v-bind:style="styleObj2">
+                <div>这是一段话</div>
+                <div>这是一段话</div>
+                <div>这是一段话</div>
+                <div>这是一段话</div>
+                <div>这是一段话</div>
+                <div>这是一段话</div>
+                <div>这是一段话</div>
+                <div>这是一段话</div>
+            </div>
+            <p>--------</p>
+        </div>
+    </div>
+
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            styleObj: {
+                transform:'rotate(-15deg)',
+                display: 'flex'
+            },
+            styleObj2: {
+                //display从数组最后往前匹配，直到匹配一个兼容的值后停止匹配，并进行渲染
+                display: ['-webkit-box', '-ms-flexbox','flex'],
+                //如果flex放到第一的位置，下面的样式将不能正常工作
+                flex: 1
+            }
+        },
+        methods: {
+
+        },
+        components: {}
+
+    })
+</script>
+
+</html>

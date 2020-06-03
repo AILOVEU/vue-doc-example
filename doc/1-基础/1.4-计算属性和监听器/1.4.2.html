@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1.3.3-模板语法-计算属性和监听器</title>
+    <title>1.4.2-模板语法-计算属性和监听器</title>
     <!-- 引入资源 -->
     <script src='./vue@2.6.10.js'></script>
 </head>
@@ -78,6 +78,7 @@
             }
         },
         //监听属性通过watch定义
+        //watch的使用场景是当需要在数据变化时执行异步或开销较大的操作时
         watch: {
             //只要firstNum变化，就执行这个方法
             firstNum: function (val) {
