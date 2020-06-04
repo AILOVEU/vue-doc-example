@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.6.2-条件渲染-key属性</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>1.加key属性</h3>
+        <div>
+            <div v-if="isEmail">
+                <label>邮箱：</label>
+                <input />
+            </div>
+            <div v-else>
+                <label>手机：</label>
+                <input />
+            </div>
+            <button v-on:click="switchType">切换方式</button>
+            <p>--------</p>
+        </div>
+
+        <h3>2.不加key属性</h3>
+        <div>
+            <div v-if="isEmail2">
+                <label>邮箱：</label>
+                <input key="email"/>
+            </div>
+            <div v-else>
+                <label>手机：</label>
+                <input key="phone"/>
+            </div>
+            <button v-on:click="switchType2">切换方式</button>
+        </div>
+
+    </div>
+
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            isEmail: true,
+            isEmail2: true
+
+        },
+        methods: {
+            switchType: function(){
+                this.isEmail = !this.isEmail;
+            },
+            switchType2: function(){
+                this.isEmail2 = !this.isEmail2;
+            }
+
+        },
+
+    })
+</script>
+
+</html>

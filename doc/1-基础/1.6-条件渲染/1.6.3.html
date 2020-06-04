@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.6.3-条件渲染-vShow
+
+    </title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>1.基本用法</h3>
+        <!-- ★ v-show 不支持 <template> 元素，也不支持 v-else -->
+        <div>
+            <div v-show="show">这是一段话</div>
+            <p>--------</p>
+        </div>
+
+        <h3>2.v-if和v-show区别</h3>
+        <!-- ★ v-show 不支持 <template> 元素，也不支持 v-else -->
+        <!-- ★ 频繁切换用v-show，很少改变用v-if -->
+        <div>
+            <div v-show="seen">这是一段话show</div>
+            <!-- html渲染后为<div style="display: none;">这是一段话</div> -->
+            <div v-show="!seen">这是一段话!show</div>
+
+            <div v-if="seen">这是第二段话if</div>
+            <!-- html将不会被渲染 -->
+            <div v-if="!seen">这是第二段话!if</div>
+            <p>--------</p>
+        </div>
+    </div>
+
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            seen: true && "show" && 2 ,//"" 为false
+        },
+        methods: {
+
+        },
+
+    })
+</script>
+
+</html>
