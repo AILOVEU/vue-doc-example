@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.7.2-列表渲染-数组更新 copy</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>1.数组更新</h3>
+        <!-- 执行这些方法，会导致原数组数据变化 -->
+        <div>
+            <!-- 不要使用对象或数组之类的非基本类型值作为 v-for 的 key。请用字符串或数值类型的值 -->
+            <div v-for="item in obj1" v-bind:key="item.message">
+                {{item}}
+            </div>
+            <button v-on:click="push">push</button>
+            <button v-on:click="pop">pop</button>
+            <button v-on:click="shift">shift</button>
+            <button v-on:click="unshift">unshift</button>
+            <button v-on:click="splice">splice</button>
+            <button v-on:click="sort">sort</button>
+            <button v-on:click="reverse">reverse</button>
+            <p>--------</p>
+        </div>
+
+        <h3>2.数组替换</h3>
+
+        <div>
+            <div v-for="item in obj2" v-bind:key="item.message">
+                {{item}}
+            </div>
+            <button v-on:click="filter">filter</button>
+            <button v-on:click="concat">concat</button>
+            <button v-on:click="slice">slice</button>
+            <p>--------</p>
+        </div>
+
+
+    </div>
+
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            obj1: [{
+                    message: 'B'
+                },
+                {
+                    message: 'A'
+                }
+            ],
+            obj2: [{
+                    message: 'B'
+                },
+                {
+                    message: 'A'
+                },
+                {
+                    message: 'C'
+                }
+            ]
+        },
+        methods: {
+            //----变更方法----
+            //队尾添加一个元素
+            push: function () {
+                this.obj1.push({
+                    message: `push:${Date.now()}`
+                })
+            },
+            //删除最后一个元素
+            pop: function () {
+                this.obj1.pop()
+            },
+            //删除第一个元素
+            shift: function () {
+                this.obj1.shift()
+            },
+            //队首添加一个元素
+            unshift: function () {
+                this.obj1.unshift({
+                    message: `shift:${Date.now()}`
+                })
+            },
+            //原数组删除，返回删除的数组
+            splice: function () {
+                var obj2 = this.obj1.splice(0, 2)
+                console.log(obj2);
+            },
+            //降序排序
+            sort: function () {
+                this.obj1.sort((x, y) => x.message < y.message)
+            },
+            //数组倒序
+            reverse: function () {
+                this.obj1.reverse();
+            },
+            //----替换方法----
+            //筛选元素中符合表达式的元素组成新的数组返回
+            filter: function () {
+                this.obj2 = this.obj2.filter(x => {
+                    return x.message.match(/C/)
+                })
+            },
+            //拼接一个或多个数组
+            concat: function () {
+                this.obj2 = this.obj2.concat([{
+                    message: `concat:${Date.now()}`
+                }])
+            },
+            //返回范围内元素组成的新数组，两个参数都是下标
+            //第二个坐标位置不能再第一个坐标前面
+            slice: function () {
+                this.obj2 = this.obj2.slice(1,2)
+            },
+        },
+
+    })
+</script>
+
+</html>
