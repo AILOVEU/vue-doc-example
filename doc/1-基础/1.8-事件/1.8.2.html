@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.8.2-事件-事件修饰符</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>1.基本用法（需要打开console）</h3>
+        <div>
+            <h5>1.stop阻止冒泡</h5>
+            <!-- 父元素不会执行点击事件 -->
+            <div v-on:click='myFunc("click-div")'>
+                <button v-on:click.stop="click1">stop</button>
+            </div>
+            <p>--------</p>
+
+            <h5>2.prevent</h5>
+            <!-- 阻止默认事件 -->
+            <a v-on:click.prevent="click2" href="http://ailoveu.top"/>点我不会跳转</a>
+            <p>--------</p>
+
+            <h5>3.capture</h5>
+            <!-- 改变事件的冒泡顺序，先执行capture修饰的事件，然后再从里向外冒泡 -->
+            <!-- 若有多个该修饰符，则由外而内触发，即如果都加装饰器的话，alert顺序正好相反 -->
+            <!-- ★总结：从外到里，遇到capture执行，然后从里到外，执行剩余没有执行的方法 -->
+            <div v-on:click="myFunc('capture-1')" style="width:100px;height:100px;background-color:blanchedalmond;">
+                <div v-on:click.capture="myFunc('capture-2')" style="width:80px;height:80px;background-color:gray;">
+                    <div v-on:click="myFunc('capture-3')" style="width:50px;height:50px;background-color:white;">
+                        点我
+                    </div>
+                </div>
+            </div>
+            <p>--------</p>
+
+            <h5>4.self</h5>
+            <!-- ★self只当事件是从侦听器绑定的元素本身触发时才触发回调 -->
+            <!-- 点击白色，从3冒泡到1，跳过了2 -->
+            <!-- 点击灰色，由于是本身触发的，所以从2冒泡到了1 -->
+            <!-- 点击黄色，执行1 -->
+            <div v-on:click="myFunc('self-1')" style="width:100px;height:100px;background-color:blanchedalmond;">
+                <div v-on:click.self="myFunc('self-2')" style="width:80px;height:80px;background-color:gray;">
+                    <div v-on:click="myFunc('self-3')" style="width:50px;height:50px;background-color:white;">
+                        点我
+                    </div>
+                </div>
+            </div>
+            <p>--------</p>
+
+            <h5>5.once事件只执行一次</h5>
+            <button v-on:click.once="click5">once</button>
+            <p>--------</p>
+
+            <h5>6.passive</h5>
+            <!-- 阻止检查事件是否设置了preventDefault -->
+            <!-- 加上passive就是为了告诉浏览器，不用查询了，我们没用preventDefault阻止默认动作 -->
+            <!-- 擅长场景：touchmove 、scroll -->
+            <!-- ★passive和prevent冲突，不能同时绑定在一个监听器上 -->
+            <button v-on:click.passive="click6">passive</button>
+            <p>--------</p>
+
+        </div>
+
+        <h3>2.修饰符组合</h3>
+        <!-- 可能说的不对，大家补充 -->
+        <!-- 官网说：用 v-on:click.prevent.self 会阻止所有的点击，而 v-on:click.self.prevent 只会阻止对元素自身的点击。 -->
+        <!-- 人话：用 v-on:click.prevent.self 会阻止元素所有点击的默认事件，而 v-on:click.self.prevent 只在本身触发时才会阻止默认事件 -->
+
+        <div>
+            <h5>1.先看看不加修饰符</h5>
+            <!-- 点击白色，3-2-1-默认事件 -->
+            <div v-on:click="myFunc('self-1')" style="width:100px;height:100px;background-color:blanchedalmond;">
+                <a href="http://ailoveu.top" v-on:click="myFunc('self-2')" >
+                    a标签
+                    <div v-on:click="myFunc('self-3')" style="width:50px;height:50px;background-color:white;">
+                    </div>
+                </a>
+            </div>
+            <p>--------</p>
+            <h5>2.prevent.self</h5>
+            <!-- 点击白色，3-1 -->
+            <!-- 点击文字，2-1 -->
+            <!-- 总结：只有本身触发才执行，阻止自身默认事件 -->
+            <!-- self修饰的是没有默认事件的click事件 -->
+            <div v-on:click="myFunc('self-1')" style="width:100px;height:100px;background-color:blanchedalmond;">
+                <a href="http://ailoveu.top" v-on:click.prevent.self="myFunc('self-2')" >
+                    a标签
+                    <div v-on:click="myFunc('self-3')" style="width:50px;height:50px;background-color:white;">
+                    </div>
+                </a>
+            </div>
+            <p>--------</p>
+            <h5>2.self.prevent</h5>
+            <!-- 点击白色，3-1-默认事件 -->
+            <!-- 点击文字，2-1 -->
+            <!-- 总结:  阻止本身触发时的默认事件（prevent阻止self click），所以本身触发时click.self被prevent了-->
+            <!-- prevent只修饰“本身触发”这个事件，如果不是self的click仍然会执行默认事件 -->
+            <div v-on:click="myFunc('self-1')" style="width:100px;height:100px;background-color:blanchedalmond;">
+                <a href="http://ailoveu.top" v-on:click.self.prevent="myFunc('self-2')" >
+                    a标签
+                    <div v-on:click="myFunc('self-3')" style="width:50px;height:50px;background-color:white;">
+                    </div>
+                </a >
+            </div>
+            <p>--------</p>
+
+        </div>
+
+    </div>
+
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            myFunc:function(msg){
+                alert(msg);
+            },
+            click1: function(){
+                console.log('stop');
+            },
+            click2: function(e){
+                console.log('prevent');
+            },
+            click5: function(msg,e){
+                console.log('once');
+            },
+            click6: function(msg,e){
+                console.log('passive');
+            },
+        },
+        methods: {
+
+
+        },
+
+    })
+</script>
+
+</html>

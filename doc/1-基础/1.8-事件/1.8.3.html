@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.8.3-事件-键盘事件</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+    <style>
+        
+    </style>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>1.按键修饰符</h3>
+        <div>
+            <h5>密码输入框点击回车会提交</h5>
+            <label for="phone">手机号：</label>
+            <input id="phone" name="phone" type="text" v-model="phone" />
+            <label for="password">密码：</label>
+            <!-- keyup:按键抬起时执行 -->
+            <input id="password" name="password" type="password" v-model="password" v-on:keyup.enter="commit" />
+            <button v-on:click="commit">登录</button>
+            <p>--------</p>
+            <h5>箭头</h5>
+            <input v-on:keyup.up="alert('up')" v-on:keyup.right="alert('right')" v-on:keyup.down="alert('down')"
+                v-on:keyup.left="alert('left')" />
+            <p>--------</p>
+            <h5>tab</h5>
+            <!-- 一个有意思的现象是，你在这里按tab不起作用，需要在上一个input中按tab -->
+            <input v-on:keyup.tab="alert('tab')" />
+            <p>--------</p>
+            <h5>esc</h5>
+            <input v-on:keyup.esc="alert('esc')" />
+            <p>--------</p>
+            <h5>space</h5>
+            <input v-on:keyup.space="alert('space')" />
+            <p>--------</p>
+            <h5>delete</h5>
+            <input v-on:keyup.delete="alert('delete')" />
+            <p>--------</p>
+
+        </div>
+
+        <h3>2.自定义按键编码</h3>
+        <div>
+            <!-- 没明白这段想做啥，以后补上 -->
+            <p>--------</p>
+        </div>
+
+        <h3>3.系统修饰键</h3>
+        <div>
+            <!-- Alt + C -->
+            <input v-on:keyup.alt.67="alert('alt + c')" placeholder="alt + c">
+            <!-- Ctrl + Click -->
+            <!-- 或者你可以理解它是一个ctrl修饰符 -->
+            <div v-on:click.ctrl="alert('ctrl + click')">按住Ctrl鼠标点击我</div>
+            <p>--------</p>
+        </div>
+
+        <h3>4.exact修饰符</h3>
+        <!-- .exact 修饰符允许你控制由精确的系统修饰符组合触发的事件。 -->
+        <div>
+            <!-- 即使 Alt 或 Shift 被一同按下时也会触发 -->
+            <button v-on:click.ctrl="alert('按住ctrl点击即可')">按住ctrl点击即可</button>
+            <!-- 有且只有 Ctrl 被按下的时候才触发 -->
+            <button v-on:click.ctrl.exact="alert('只按住ctrl并点击才行')">只按住ctrl并点击才行</button>
+            <!-- 没有任何系统修饰符被按下的时候才触发 -->
+            <button v-on:click.exact="alert('不按系统修饰符点击')">不按系统修饰符点击</button>
+            <p>--------</p>
+        </div>
+
+        <h3>5.鼠标按键事件</h3>
+        <!-- .exact 修饰符允许你控制由精确的系统修饰符组合触发的事件。 -->
+        <div>
+            <div v-on:click.left="alert('鼠标左键点击')">鼠标左键点击</div>
+            <div v-on:click.right="alert('鼠标右键点击')">鼠标右键点击</div>
+            <!-- ？firefox上测试点击左键会触发，而滚轮不会触发，不清楚为什么 -->
+            <div v-on:click.middel="alert('鼠标中键点击')">鼠标中键点击</div>
+
+            <p>--------</p>
+        </div>
+    </div>
+
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            phone: '',
+            password: ''
+        },
+        methods: {
+            commit: function (e) {
+                console.log(e); //e.key == Enter
+
+                alert('已提交');
+            },
+            alert: function (msg) {
+                alert(msg);
+            },
+
+        },
+
+    })
+</script>
+
+</html>

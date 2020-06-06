@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.9.1-表单输入-输入绑定</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>1.基本用法</h3>
+        <div>
+            <h5>文本input</h5>
+            <input v-model="msg" placeholder="edit me">
+            <p>msg is: {{ msg }}</p>
+            <p>--------</p>
+
+            <h5>多行文本textarea</h5>
+            <textarea v-model="multMsg" placeholder="add multiple lines"></textarea>
+            <span>Multiline msg is:</span>
+            <p style="white-space: pre-line;">{{ multMsg }}</p>
+            <p>--------</p>
+
+            <h5>单复选框checkbox</h5>
+            <input type="checkbox" id="checkbox" v-model="singleChecked">
+            <label for="checkbox">Checked state：{{ singleChecked }}</label>
+            <p>--------</p>
+
+
+            <h5>多复选框checkbox</h5>
+            <input type="checkbox" id="jack" value="Jack" v-model="multChecked">
+            <label for="jack">Jack</label>
+            <input type="checkbox" id="john" value="John" v-model="multChecked">
+            <label for="john">John</label>
+            <input type="checkbox" id="mike" value="Mike" v-model="multChecked">
+            <label for="mike">Mike</label>
+            <br>
+            <span>Checked names: {{ multChecked }}</span>
+            <p>--------</p>
+
+            <h5>单选按钮radio</h5>
+            <input type="radio" id="one" value="One" v-model="picked">
+            <label for="one">One</label>
+            <br>
+            <input type="radio" id="two" value="Two" v-model="picked">
+            <label for="two">Two</label>
+            <br>
+            <span>Picked: {{ picked }}</span>
+            <p>--------</p>
+
+            <h5>单选择框select</h5>
+            <select v-model="singleSelected">
+                <!-- 为兼容ios，如果没有默认值，默认的option是必须的 -->
+                <option disabled value="">请选择</option>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+            </select>
+            <span>singleSelected: {{ singleSelected }}</span>
+
+            <h5>多选择框select</h5>
+            <select v-model="MultSelected" multiple style="width: 50px;">
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+            </select>
+            <br>
+            <span>MultSelected: {{ MultSelected }}</span>
+        </div>
+
+        <h3>2.修饰符</h3>
+        <div>
+            <h5>lazy</h5>
+            <!-- 将焦点移除input -->
+            <input v-model.lazy="lazyMsg">
+            输入值：{{lazyMsg}}
+            <p>--------</p>
+
+            <h5>number</h5>
+            <!-- number可以理解为parseFloat(age),如果不能解析，如“123abc123”，只能解析到123，而不是123123 -->
+            <!-- 添加type为number，程序会更加健全 -->
+            <input v-model.number="age"/>
+            输入值：{{age}}
+            <p>--------</p>
+
+            <h5>trim</h5>
+            <input v-model.trim="trimMsg">
+            你输入的值：|{{trimMsg}}|
+            <p>--------</p>
+        </div>
+
+
+
+    </div>
+
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            msg: '',
+            multMsg: '',
+            singleChecked: '',
+            multChecked: [],
+            picked: '',
+            singleSelected: '',
+            MultSelected: [],
+            lazyMsg: '',
+            age:'',
+            trimMsg: '' 
+        },
+        methods: {
+
+
+        },
+
+    })
+</script>
+
+</html>

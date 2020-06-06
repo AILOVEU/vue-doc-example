@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.8.1-事件-监听与处理</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>1.基本用法</h3>
+        <div>
+            <!-- 总结：click与click($event)效果一样，如果没有参数可以不带括号，如果有括号$event必须传递 -->
+            <!-- click(msg,$event)如果带参数，$event必须传递 -->
+            <button v-on:click="click1">点我</button>
+            <button v-on:click="click2()">点我</button>
+            <button v-on:click="click3($event)">点我</button>
+            <button v-on:click="click4('hi')">点我</button>
+            <button v-on:click="click5('hi',$event)">点我</button>
+            <p>--------</p>
+        </div>
+
+    </div>
+
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            click1: function(msg,e){
+                console.log(msg);// click{}
+                console.log(e);// undefind
+            },
+            click2: function(msg,e){
+                console.log(msg);//undefind
+                console.log(e);//undefind
+            },
+            click3: function(msg,e){
+                console.log(msg);//click{}
+                console.log(e);//undefind
+            },
+            click4: function(msg,e){
+                console.log(msg);//hi
+                console.log(e);//undefind
+            },
+            click5: function(msg,e){
+                console.log(msg);//hi
+                console.log(e);//click{}
+            },
+        },
+        methods: {
+
+
+        },
+
+    })
+</script>
+
+</html>
