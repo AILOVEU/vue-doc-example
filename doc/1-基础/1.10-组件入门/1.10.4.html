@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.10.3-组件入门-组件双向数据绑定</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>组件双向数据绑定</h3>
+        <div>
+            <child-component>我是插槽</child-component>
+            <p>--------</p>
+        </div>
+    </div>
+
+    <template id='child'>
+        <div>
+            <div>这是一段话</div>
+            <slot></slot>
+            <div>这是一段话</div>
+        </div>
+    </template>
+
+
+</body>
+
+
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+
+        },
+        methods: {
+
+        },
+        components: {
+            //定义子组件
+            'child-component': {
+                data: function () {
+                    return {};
+                },
+                methods: {},
+                template: '#child',
+
+            }
+
+
+        }
+    })
+</script>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.1.1-组件进阶-注册组件</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+</head>
+
+<body>
+    <!-- 本文档在1.1.4和1.10介绍过组件的基本知识，同样的内容就不重复说了，没有看过的朋友可以去看下 -->
+    <div id="app">
+        <h3>1.Props验证</h3>
+        <!-- ！注意属性不要使用大写，全部小写，或者使用-连接 -->
+        <child-component :title="obj.title" :likes="obj.likes" :ispublished="obj.isPublished"
+            :commentids="obj.commentIds" :author="obj.author" :callback="obj.callback"
+            :contacts-promise="obj.contactsPromise"></child-component>
+    </div>
+
+    <template id='child'>
+        <div>
+            <p>string：{{title}}</p>
+            <p>int：{{likes}}</p>
+            <p>boolean：{{ispublished}}</p>
+            <p>array：{{commentids}}</p>
+            <p>object：{{author}}</p>
+            <p>function：{{callback}}</p>
+            <p>promise：{{contacts-promise}}</p>
+        </div>
+    </template>
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            obj: {
+                title: "这是标题",
+                likes: 520,
+                isPublished: true,
+                commentIds: ['ailoveu','hy','jikewang'],
+                author: {
+                    id: 1001,
+                    name: 'jikewang'
+                },
+                callback: function(){
+                    return 'this is function';
+                },
+                contactsPromise: Promise // or any other constructor
+            }
+        },
+        components: {
+            'child-component': {
+                props: {
+                    title: String,
+                    likes: Number,
+                    ispublished: Boolean,
+                    commentids: Array,
+                    author: Object,
+                    callback: Function,
+                    'contacts-promise': Promise // or any other constructor
+                },
+                template: '#child'
+            }
+        }
+    })
+</script>
+
+</html>

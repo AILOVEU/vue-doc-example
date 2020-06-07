@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.10.3-组件入门-组件双向数据绑定</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <!-- 定义根DOM元素 -->
+    <div id="app">
+        <h3>1.is属性</h3>
+        <div>
+            <button v-for="tab in tabs" v-bind:key="tab" v-on:click="curTab = tab">{{tab}}</button>
+            <div>当前组件：</div>
+            <!-- 使用component和使用h1的效果是一样的 -->
+            <component v-bind:is="curComponent"></component>
+            <p>--------</p>
+        </div>
+        <h3>2.注意事项</h3>
+        <div>
+            <table>
+                <tr is="home-component"></tr>      
+                <!-- 自定义组价因为table标签限制，会被移出table -->
+                <posts-component></posts-component>               
+            </table>
+            <p>--------</p>
+        </div>
+
+    </div>
+
+    <template id='home'>
+        <div>
+            home component
+        </div>
+    </template>
+
+    <template id='posts'>
+        <div>
+            posts component
+        </div>
+    </template>
+
+    <template id='archive'>
+        <div>
+            archive component
+
+        </div>
+    </template>
+
+
+</body>
+
+
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            curTab: 'home',
+            tabs: ['home', 'posts', 'archive']
+        },
+        computed: {
+            curComponent: function () {
+                return this.curTab + '-component'
+            }
+        },
+        methods: {
+
+        },
+        components: {
+            'home-component': {
+                template: '#home'
+            },
+            'posts-component': {
+                template: '#posts'
+            },
+            'archive-component': {
+                template: '#archive'
+            },
+
+
+        }
+    })
+</script>
+
+</html>
