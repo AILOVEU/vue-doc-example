@@ -13,10 +13,13 @@
     <!-- 本文档在1.1.4和1.10介绍过组件的基本知识，同样的内容就不重复说了，没有看过的朋友可以去看下 -->
     <div id="app">
         <h3>1.Props验证</h3>
+        <h5>--props的验证--</h5>
         <!-- ！注意属性不要使用大写，全部小写，或者使用-连接 -->
         <child-component :title="obj.title" :likes="obj.likes" :ispublished="obj.isPublished"
-            :commentids="obj.commentIds" :author="obj.author" :callback="obj.callback"
-            :contacts-promise="obj.contactsPromise"></child-component>
+            :commentids="obj.commentIds"  :callback="obj.callback"></child-component>
+        <h5>--v-bind--</h5>
+        <!-- ★这个和上面基本是等价的。大小写的问题在这里也表现的很明显了 -->
+        <child-component v-bind="obj"></child-component>
     </div>
 
     <template id='child'>
@@ -27,7 +30,8 @@
             <p>array：{{commentids}}</p>
             <p>object：{{author}}</p>
             <p>function：{{callback}}</p>
-            <p>promise：{{contacts-promise}}</p>
+            <!-- ？如果我在定义父组件的data时，就使用的驼峰写法，那么我这如果我想把值打印出来，应该怎么写 -->
+            <p>timeDesc: {{`${timeDesc}`}}</p>
         </div>
     </template>
 </body>
@@ -40,30 +44,55 @@
         //定义数据
         data: {
             obj: {
+                //基础的类型检查 (`null` 和 `undefined` 会通过任何类型验证)
                 title: "这是标题",
                 likes: 520,
                 isPublished: true,
-                commentIds: ['ailoveu','hy','jikewang'],
+                commentIds: ['ailoveu', 'hy', 'jikewang'],
                 author: {
                     id: 1001,
                     name: 'jikewang'
                 },
-                callback: function(){
+                callback: function () {
                     return 'this is function';
                 },
-                contactsPromise: Promise // or any other constructor
+                timeDesc: Date.now().toString()
             }
         },
         components: {
             'child-component': {
                 props: {
-                    title: String,
+                    title: {
+                        //类型定义
+                        type: String,
+                        //必填的字符串
+                        required: true,
+                        //默认值。即使有默认值，required也需要传值
+                        default: "标题",
+                    },
                     likes: Number,
                     ispublished: Boolean,
                     commentids: Array,
-                    author: Object,
+                    //如果不传值，使用default的默认值
+                    author: {
+                        type: Object,
+                        // 对象或数组默认值必须从一个工厂函数获取。同样是防止不同组件互相影响
+                        default: function () {
+                            return {
+                                id: 1001,
+                                name: 'hy'
+                            }
+                        }
+                    },
                     callback: Function,
-                    'contacts-promise': Promise // or any other constructor
+                    //设置自定义的一个数据类型
+                    timeDesc: {
+                        type: String,
+                        default: function(){
+                            return Date.now().toString()
+                        }
+                    },
+                    // ？如果我想定义几个属性，不定义他们的类型，应该怎么写
                 },
                 template: '#child'
             }
