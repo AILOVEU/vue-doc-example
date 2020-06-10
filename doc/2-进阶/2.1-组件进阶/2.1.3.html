@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.1.3-组件进阶-组件的属性</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+    <style>
+        .redC {
+            color: red;
+        }
+
+        .big-foot {
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h3>1.组件class的继承</h3>
+        <child-component class="redC"></child-component>
+        <p>----------</p>
+        <h3>2.组件style的继承</h3>
+        <child2-component style="color:red;"></child2-component>
+        <p>----------</p>
+        <h3>3.组件data-自定义数据的继承</h3>
+        <child3-component data-animal-type="鸟类"></child3-component>
+        <p>----------</p>
+        <h3>4.禁用属性继承</h3>
+        <child4-component label="姓名" class="username-input" placeholder="Enter your username"
+            data-date-picker="activated" :value="'父组件value'"></child4-component>
+        <p>----------</p>
+    </div>
+
+    <template id='child'>
+        <!-- 根元素会有两个class redC、big-font -->
+        <div class="big-foot">
+            <p>这是一段话</p>
+        </div>
+    </template>
+
+    <template id='child2'>
+        <!-- 根元素会有两个style font-size、color -->
+        <div style="font-size:30px;">
+            <p>这是一段话</p>
+        </div>
+    </template>
+
+    <template id='child3'>
+        <!-- 这个div会增加一个data-animal-type的自定义数据 -->
+        <div>
+            <p>这是一段话</p>
+        </div>
+    </template>
+
+    <template id="child4">
+        <!-- inheritAttrs: false，label仍然会继承class和style，但是不会继承其他非prop属性 -->
+        <label>
+            <!-- ★input标签能继承则是因为我们使用了v-bind="$attrs" -->
+            <!-- input获取所有父组件的自定义属性 -->
+            {{value}}
+            <input v-bind="$attrs">
+        </label>
+    </template>
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {},
+        components: {
+            'child-component': {
+                props: {},
+                template: '#child'
+            },
+            'child2-component': {
+                props: {},
+                template: '#child2'
+            },
+            'child3-component': {
+                props: {},
+                template: '#child3'
+            },
+            'child4-component': {
+                // 禁止根元素继承组件定义时的属性
+                inheritAttrs: false,
+                props: ['value'],
+                template: '#child4',
+                mounted: function(){
+                    //并不会输出value
+                    console.log(this.$attrs);
+                }
+            }
+        }
+    })
+</script>
+
+</html>

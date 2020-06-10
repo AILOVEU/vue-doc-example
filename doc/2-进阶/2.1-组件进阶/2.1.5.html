@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.1.5-组件进阶-反向绑定数据</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+
+</head>
+
+<body>
+    <div id="app">
+
+        <h3>1.update:myPropName</h3>
+        {{msg}}
+        <!-- 自定义属性使用kebab-case -->
+        <child-component :child-value="msg" @update:child-value="msg = $event"></child-component>
+        <p>----------</p>
+
+        <!-- 之所以两个例子同时变化，是因为他们使用同一个vm实例中的data，如果想不共用，需要新定义一个#app2 -->
+        <h3>2.sync修饰符</h3>
+        <!-- sync是update的语法糖 -->
+        <child-component :child-value.sync="msg"></child-component>
+
+
+    </div>
+
+    <template id='child'>
+        <div>
+            <input :value="childValue" @input="$emit('update:child-value',$event.target.value)" />
+            <p>你输入的值是：{{childValue}}</p>
+        </div>
+    </template>
+
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            msg: '缺省值',
+        },
+        methods: {},
+        components: {
+            'child-component': {
+                //props属性使用camelCase格式
+                props: ['childValue'],
+                template: '#child',
+            },
+
+        }
+    })
+</script>
+
+</html>
+
+<!-- 自定义属性使用kebab-case -->
+<!-- props属性使用camelCase格式 -->
+
