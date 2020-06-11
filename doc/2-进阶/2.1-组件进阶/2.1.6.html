@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.1.5-组件进阶-反向绑定数据</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+
+</head>
+
+<body>
+    <div id="app">
+
+        <h3>1.基本使用</h3>
+        <!-- 如果child-component的template模板没有包含slot，定义再组件中间的内容都会消失 -->
+        <child-component>
+            <div>插槽可以是一个简单的标签</div>
+            <sub-child-component></sub-child-component>
+        </child-component>
+        <p>----------</p>
+
+        <h3>2.插槽的后备内容</h3>
+        <child2-component>
+        </child2-component>
+        <p>----------</p>
+        <!-- 当被提供的内容只有默认插槽时，v-slot才能作用再组件名上 -->
+        <child2-component v-slot:default="slotProps">
+            我是替代插槽内容
+        </child2-component>
+        <p>----------</p>
+
+        <h3>3.有名字的插槽</h3>
+        <child3-component>
+            <!-- v-slot 只能添加在 <template>  -->
+            <template v-slot:header>
+                我是填充header的插槽内容
+            </template>
+            <div>
+                我是默认的内容
+            </div>
+            <template v-slot:footer>
+                我是填充footer的插槽内容
+            </template>
+        </child3-component>
+        <p>----------</p>
+
+        <h3>4.插槽属性</h3>
+        <child4-component>
+            <!-- slotProps这个的语法是，获取到默认slot所有的所有属性 -->
+            <template v-slot:default="slotProps">
+                {{slotProps}}
+            </template>
+            <!-- ★不带参数的 v-slot 被假定对应默认插槽 -->
+            <!-- 注意默认插槽的缩写语法不能和具名插槽混用 -->
+            <!-- 只要出现多个插槽，请使用完整写法 -->
+            <template v-slot="slotProps">
+                {{slotProps}}
+            </template>
+        </child4-component>
+        <p>----------</p>
+
+        <h3>5.解构插槽</h3>
+        <!-- 
+            解构语法：
+            var o = {p: 42, q: true};
+            var {p, q} = o;
+            变量重命名：
+            var o = {p: 42, q: true};
+            var {p: foo, q: bar} = o;
+            默认值：
+            var {a = 10, b = 5} = {a: 3};
+        -->
+        <child5-component>
+            <template v-slot:default="{msg,time:dataNow,defaultValue=123}">
+                <div>{{msg}}-{{dataNow}}</div>
+                <div>默认值变了：{{defaultValue}}</div>
+
+            </template>
+        </child5-component>
+        <p>----------</p>
+
+        <h3>6.动态插槽名</h3>
+        <child6-component>
+
+            <!-- ？这个dyslotname改成驼峰书写，怎么处理 -->
+            <!-- 动态插槽名，禁止使用驼峰和分割符 -->
+            <template v-slot:[dyslotname]>动态的
+            </template>
+        </child6-component>
+        <p>----------</p>
+    </div>
+
+    <template id='child'>
+        <div>
+            <div>这是插槽内容：</div>
+            <slot></slot>
+        </div>
+    </template>
+
+    <template id='sub-child'>
+        <div>
+            <div>插槽也可以是一个组件</div>
+        </div>
+    </template>
+
+    <template id='child2'>
+        <div>
+            <div>这是插槽内容：</div>
+            <slot>默认插槽内容</slot>
+        </div>
+    </template>
+
+    <template id='child3'>
+        <div>
+            <slot name="header"></slot>
+            <!-- 默认内容会被重复填入下面三个插槽里 -->
+            <slot></slot>
+            <slot></slot>
+            <slot name="default"></slot>
+            <slot name="footer"></slot>
+        </div>
+    </template>
+
+
+    <template id='child4'>
+        <div>
+            <!-- 将msg属性映射出去 -->
+            <slot v-bind:msg="dataMsg">{{dataMsg}</slot>
+        </div>
+    </template>
+
+    <template id='child5'>
+        <div>
+            <!-- 将msg属性映射出去 -->
+            <slot v-bind:msg="dataMsg" v-bind:time="time">{{dataMsg}}</slot>
+        </div>
+    </template>
+
+    <template id='child6'>
+        <div>
+            <slot></slot>
+            <slot name="slot1"><p>默认的1</p></slot>
+            <slot name="slot2"><p>默认的2</p></slot>
+        </div>
+    </template>
+
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            //示例6，动态插槽名设为slot，则slot1默认值会被覆盖
+            dyslotname: 'slot1',
+
+            msg: '这是parent的data msg信息',
+        },
+        methods: {},
+        components: {
+            'child-component': {
+                template: '#child',
+            },
+            'sub-child-component': {
+                template: '#sub-child',
+            },
+            'child2-component': {
+                template: '#child2',
+            },
+            'child3-component': {
+                template: '#child3',
+            },
+            'child4-component': {
+                data: function () {
+                    return {
+                        dataMsg: '这是child4的data msg信息',
+                        time: Date.now()
+                    }
+                },
+                template: '#child4',
+            },
+            'child5-component': {
+                data: function () {
+                    return {
+                        dataMsg: '这是child4的data msg信息',
+                        time: Date.now()
+                    }
+                },
+                template: '#child5',
+            },
+            'child6-component': {
+                template: '#child6',
+            },
+
+        }
+    })
+</script>
+
+</html>
+
+<!-- 自定义属性使用kebab-case -->
+<!-- props属性使用camelCase格式 -->
