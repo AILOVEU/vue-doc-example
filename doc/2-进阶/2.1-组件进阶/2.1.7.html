@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.1.7-组件进阶-插槽进阶示例</title>
+    <!-- 引入资源 -->
+    <script src='./vue@2.6.10.js'></script>
+    <style>
+        .new {
+            color: cadetblue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+        <h3>1.基本使用</h3>
+        <!-- slot-component组件中的childObjs是parentObjs的映射名 -->
+        <slot-component :child-objs="parentObjs">
+            <!-- objA2是插槽对外暴露的变量。就使用方式而言，这样理解最好 -->
+            <template #loop="{objA2}">
+                <!-- 插槽内可以直接使用objA2 -->
+                <span :class="{new: objA2.isNew}">{{objA2}}</span>
+            </template>
+        </slot-component>
+        <p>----------</p>
+        <!-- input-component组件中的hobby是newHobby的映射名 -->
+        <!-- input-component的hobby属性更新事件，在父组件的响应是newHobby更新为新值 -->
+        <!-- 子组件对外暴露回车事件update-hobby，父组件执行updateHobby方法 -->
+        <input-component :hobby="newHobby" @update:hobby="newHobby = $event" @update-hobby="updateHobby">
+            <!-- 一个简陋的插槽 -->
+            <template #default>
+                <p>
+                    {{newHobby}}
+                </p>
+            </template>
+        </input-component>
+        <p>----------</p>
+    </div>
+
+    <template id='slot'>
+        <div>
+            <div>这是插槽内容：</div>
+            <!-- childObjs是父组件的parentObjs -->
+            <li v-for="obj in childObjs">
+                <!-- 将obj暴露为objA2，供外部调用 -->
+                <slot name="loop" :obj-a2="obj"></slot>
+            </li>
+            <!-- 这个例子能让你更理解obj-a2这个是怎么转换的 -->
+
+        </div>
+    </template>
+
+    <template id="input">
+        <div>
+            <p>输入你的爱好，回车确认： </p>
+            <slot>null</slot>
+            <!-- input的value属性设置为hobby -->
+            <!-- 输入事件，回调父组件的update:hobby事件，传参为输入输入的值 -->
+            <input :value="hobby" @input="$emit('update:hobby',$event.target.value)"
+                @keyup.enter="$emit('update-hobby')" />
+        </div>
+    </template>
+
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            parentObjs: [{
+                hobby: "吃饭",
+                isNew: false
+            }, {
+                hobby: "睡觉",
+                isNew: false
+            }, {
+                hobby: "打游戏",
+                isNew: false
+            }],
+            newHobby: '',
+        },
+        methods: {
+            //将输入的爱好更新到父组件的parentObjs中
+            updateHobby: function () {
+                this.parentObjs.push({
+                    hobby:this.newHobby,
+                    isNew:true
+                });
+                // 输入清空
+                this.newHobby = '';
+            }
+        },
+        components: {
+            'slot-component': {
+                //插槽组件，输入的值映射名为childObjs，对应父组件的parentObjs
+                props: ["childObjs"],
+                template: '#slot',
+            },
+            'input-component': {
+                //输入组件，输入的值映射名未hobby，对应父组件的newHobby
+                props: ['hobby'],
+                template: '#input',
+            },
+        }
+    })
+</script>
+
+</html>
