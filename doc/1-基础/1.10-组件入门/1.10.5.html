@@ -23,7 +23,19 @@
             <component v-bind:is="curComponent"></component>
             <p>--------</p>
         </div>
-        <h3>2.注意事项</h3>
+
+        <h3>2.动态组件keep-alive</h3>
+        <div>
+            <button v-for="tab in tabs" v-bind:key="tab" v-on:click="curTab = tab">{{tab}}</button>
+            <div>当前组件：</div>
+            <!-- 使用component和使用h1的效果是一样的 -->
+            <keep-alive>
+                <component v-bind:is="curComponent"></component>
+            </keep-alive>
+            <p>--------</p>
+        </div>
+
+        <h3>3.注意事项</h3>
         <div>
             <table>
                 <tr is="home-component"></tr>      
@@ -43,14 +55,13 @@
 
     <template id='posts'>
         <div>
-            posts component
+            <input v-model="msg" placeholder="写点东西吧">
         </div>
     </template>
 
     <template id='archive'>
         <div>
             archive component
-
         </div>
     </template>
 
@@ -82,6 +93,11 @@
                 template: '#home'
             },
             'posts-component': {
+                data: function(){
+                    return {
+                        msg: ''
+                    }
+                },
                 template: '#posts'
             },
             'archive-component': {
