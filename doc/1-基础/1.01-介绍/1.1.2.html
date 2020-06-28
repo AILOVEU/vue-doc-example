@@ -12,20 +12,20 @@
 <body>
     <!-- 定义根DOM元素 -->
     <div id="app">
-        <h3>1.条件示例</h3>
+        <h3>1.v-if 条件示例</h3>
+        <!-- v-if后接表达式 -->
         <div v-if='seen'>
             现在你看到我了。将data中的seen改为false，你就看不到我了
         </div>
         <p>----------</p>
-        <h3>2.循环示例</h3>
+        <h3>2.v-for 循环示例</h3>
         <div>
             <p>这是我的兴趣爱好：</p>
+            <!-- v-for后接item in items，其中items是data中定义值，item是items的其中一项 -->
             <div v-for='hobby in hobbies'>
                 {{hobby}}
             </div>
         </div>
-
-
     </div>
 </body>
 <script>
@@ -37,7 +37,7 @@
         //定义数据
         data: {
             seen: true,
-            hobbies: ['早起','上班','写代码']
+            hobbies: ['早起', '上班', '写代码']
         }
     })
 </script>
