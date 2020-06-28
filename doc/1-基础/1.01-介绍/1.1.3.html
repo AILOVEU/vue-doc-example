@@ -15,10 +15,12 @@
         <h3>按钮点击响应示例</h3>
         <p>{{msg}}</p>
         <!-- 更多内容可以参考1.8.1 -->
-        <!-- 如果想要获取点击事件，可以加$event传值，method中通过e接收 -->
-        <button v-on:click='reverseMsg'>反转字符串</button>
-        <button v-on:click='reverseMsg()'>反转字符串</button>
-        <button v-on:click='reverseMsg($event)'>反转字符串</button>
+        <!-- 默认会将￥event作为传值，所以e有打印 -->
+        <button v-on:click='reverseMsg'>反转字符串1</button>
+        <!-- 自定义不传值，所以e打印为undenfine -->
+        <button v-on:click='reverseMsg()'>反转字符串2</button>
+        <!-- 和第一种传值一样 -->
+        <button v-on:click='reverseMsg($event)'>反转字符串3</button>
     </div>
 </body>
 <script>
@@ -37,8 +39,9 @@
             //★不应该使用箭头函数来定义 method 函数 ,理由是箭头函数绑定了父级作用域的上下文，所以 this 将不会按照期望指向 Vue 实例
             reverseMsg: function(e){
                 //this.msg.split('') -- 返回['H','e','l'....]
-                //his.msg.split('').reverse() -- 返回['e','u','V'....]
-                //join将数组以空字符串拼接
+                //this.msg.split('').reverse() -- 返回['e','u','V'....]
+                //join将数组以空字符串拼接成一个字符串
+                //this.msg给data中的msg赋值
                 this.msg = this.msg.split('').reverse().join('');
                 console.log(e);
             }
