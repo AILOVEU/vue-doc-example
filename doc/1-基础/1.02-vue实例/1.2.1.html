@@ -5,50 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1.2.1-实例-数据和方法</title>
-    <!-- 引入资源 -->
     <script src='./vue@2.6.10.js'></script>
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
         <h3>this.$data.a == this.a</h3>
-        <p>当前点击次数：{{clickCount1}}</p>
+        <p>当前点击次数：{{clickCount}}</p>
         <button v-on:click='click1'>点我+1</button>
         <button v-on:click='click2'>点我也+1</button>
+        <p>----------</p>
         <h3>this.$data.a !== this.a</h3>
         <!-- 两者还是有些差别的 -->
         <p>请看控制台</p>
-        <button v-on:click='randomClick1'>点击</button>
+        <button v-on:click='randomClick1'>点击没有效果</button>
         <button v-on:click='randomClick2'>点我才能改变</button>
     </div>
     <p>---------</p>
     <div id="app2">
         <h3>freeze阻止响应式</h3>
         <p>{{text}}</p>
-        <button v-on:click='tryChangeStaticObj'>点我改变</button>
+        <button v-on:click='tryChangeStaticObj'>点我不会改变</button>
     </div>
 </body>
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
-        //定义数据
         data: {
-            //点击次数
-            clickCount1: 0,
-            staticObj: staticObj
+            clickCount: 0//点击次数
         },
         methods: {
+            //通过this.$data.访问clickCount
             click1: function () {
-                this.$data.clickCount1 += 1;
+                this.$data.clickCount += 1;
             },
+            //通过this.访问clickCount
             click2: function () {
-                this.clickCount1 += 1;
+                this.clickCount += 1;
             },
-            //只有当实例被创建时就已经存在于 data 中的 属性 才是响应式的
+            //只有当实例被创建时就已经存在于 data 中的属性才是响应式的
             //只有属性是响应式的this.$data.a  == this.a
             //否则只能通过this.$data.b的方式更改b的值，this.b是undefined
             randomClick1: function () {
@@ -62,6 +57,7 @@
         }
 
     })
+
     var vm2 = new Vue({
         el: '#app2',
         //对比app1，这里将data的value通过Object.freeze包装返回，使得数据不再具有响应式
@@ -71,7 +67,11 @@
         methods: {
             //尝试改变text的值
             tryChangeStaticObj: function () {
+                //数据不会被更新
                 this.$data.text = '我被改变了';
+                console.log(this.$data.text);
+                console.log(this.text);
+                //freeze阻止了的this.text的setter，因为它经过freeze处理变成了read-only属性
                 //！报错: Cannot assign to read only property 'text' of object '#<Object>'
                 this.text = '我被改变了';
             }
