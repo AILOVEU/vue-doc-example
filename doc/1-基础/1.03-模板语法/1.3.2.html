@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.3.1-模板语法-插值</title>
+    <script src='./vue@2.6.10.js'></script>
+</head>
+
+<body>
+    <div id="app">
+
+        <h3>html标签属性</h3>
+        <div>
+            <h4>反例：这种写法是无效的</h5>
+                <!-- ？有什么办法不使用空格，将"{{hrefAttr}}"原样打印出来 -->
+                <div v-cloak>&lt;p href={{hrefAttr} }&gt;some html&lt;/p&gt;</div>
+            <h4>html标签属性需要v-bind:attr=''的形式</h5>
+            <a v-bind:href='hrefAttr' target="_blank">点我</a>
+            <h4>对于只要存在就意味着true的标签属性，如disabled；值是 null、undefined 或 false，则 disabled 属性不会被包含在渲染出来</h5>
+            <div>
+                <!-- true -->
+                <input v-bind:disabled='zeroAttr' placeholder="0" />
+                <br />
+                <!-- true -->
+                <input v-bind:disabled='emptyStrAttr' placeholder="" />
+                <br />
+                <!-- true -->
+                <input v-bind:disabled='someStrAttr' placeholder="some str" />
+                <br />
+                <!-- true -->
+                <input v-bind:disabled='trueAttr' placeholder="true" />
+                <br />
+                <!-- false -->
+                <input v-bind:disabled='falseAttr' placeholder="false" />
+                <br />
+                <!-- false -->
+                <input v-bind:disabled='undefinedAttr' placeholder="undefined" />
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+<script>
+    //使用new Vue创建一个Vue实例
+    //一般将Vue实例叫做vm
+    var vm = new Vue({
+        //Vue 实例使用的根 DOM 元素
+        el: '#app',
+        //定义数据
+        data: {
+            hrefAttr: 'http://ailoveu.top',//href标签属性
+            zeroAttr: 0,//0属性
+            emptyStrAttr: '',//空字符串
+            someStrAttr: 'some str',//有内容的字符串
+            trueAttr: true,//true值
+            falseAttr: false,//false值
+            undefinedAttr: undefined,//未定义属性
+        },
+    })
+</script>
+
+</html>

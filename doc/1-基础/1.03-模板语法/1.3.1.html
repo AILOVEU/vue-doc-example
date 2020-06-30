@@ -5,12 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1.3.1-模板语法-插值</title>
-    <!-- 引入资源 -->
     <script src='./vue@2.6.10.js'></script>
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
         <h3>1.Mustache语法</h3>
         <div>
@@ -18,6 +16,7 @@
             <p>--------</p>
         </div>
 
+        <!-- 只会在初始话的时候被赋值一次 -->
         <h3>2.v-once指令</h3>
         <div>
             <p v-once>{{onceMsg}}</p>
@@ -32,64 +31,16 @@
             <div>{{htmlMsg}}</div>
             <h5>这是v-html所能展示的</h5>
             <div v-html='htmlMsg'></div>
-            <p>--------</p>
-        </div>
-
-        <h3>4.html标签属性</h3>
-        <div>
-            <h5>反例：这种写法是无效的</h5>
-            <div>{{htmlAttrMsg}}</div>
-            <h5>html标签属性需要v-bind:attr=''的形式</h5>
-            <a v-bind:href='hrefAttr' target="_blank">点我</a>
-            <h5>对于只要存在就意味着true的标签属性，如disabled；值是 null、undefined 或 false，则 disabled 属性不会被包含在渲染出来</h5>
-            <div>
-                <input v-bind:disabled='emptyStrAttr' placeholder="emptyStrAttr" />
-                <br />
-                <input v-bind:disabled='someStrAttr' placeholder="someStrAttr" />
-                <br />
-                <input v-bind:disabled='trueAttr' placeholder="trueAttr" />
-                <br />
-                <input v-bind:disabled='falseAttr' placeholder="falseAttr" />
-                <br />
-                <input v-bind:disabled='undefinedAttr' placeholder="undefinedAttr" />
-            </div>
-            <p>--------</p>
-
-        </div>
-
-        <h3>5.js表达式</h3>
-        <div>
-            <h5>表达式是允许的</h5>
-            <div>{{mustacheMsg ? mustacheMsg : '默认值'}}</div>
-            <div>{{mustacheMsg.split('').reverse().join('')}}</div>
-            <h5>语句是不允许的</h5>
-            <div>{{unsupportedJs}}</div>
-            <h5>全局变量的白名单</h5>
-            <div>时间戳：{{Date.now()}}</div>
-            <div>随机数：{{Math.random()}}</div>
         </div>
     </div>
-
 </body>
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
-        //定义数据
         data: {
             mustacheMsg: 'this is msutacheMsg', //1.mustache语法示例
             onceMsg: `time is ${new Date().toDateString()}`, //2.v-once语法示例
             htmlMsg: '<li>some html</li>', //3.v-html语法示例
-            htmlAttrMsg: '<p href={{hrefAttr}}>some html</p>', //4.html标签属性示例
-            hrefAttr: 'http://ailoveu.top', //4.html标签属性示例
-            emptyStrAttr: '',
-            someStrAttr: 'some str',
-            trueAttr: true,
-            falseAttr: false,
-            undefinedAttr: undefined,
-            unsupportedJs: `{{ var a = 1 }}  {{ if (ok) { return message } }}`//怎么换行啊，热心的网友麻烦解答下
         },
         //2.v-once指令语法示例 -- 定义方法
         methods: {
