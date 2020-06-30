@@ -34,11 +34,11 @@ this.$emit('myEvent')
 - [vue-ssr](https://github.com/AILOVEU/vue-ssr-doc-example)（计划中）
 
 md文件会尽快补上
-
+<!--
 如果觉得该项目还不错，请喝杯奶茶吧
 
-![](http://cdn.ailoveu.top/img/20200627223308.jpg)
-![](http://cdn.ailoveu.top/img/20200627223307.jpg)
+ ![](http://cdn.ailoveu.top/img/20200627223308.jpg)
+![](http://cdn.ailoveu.top/img/20200627223307.jpg) -->
 
 
 
