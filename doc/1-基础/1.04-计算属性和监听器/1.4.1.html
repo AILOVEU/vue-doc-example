@@ -4,70 +4,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1.4.1-模板语法-指令</title>
-    <!-- 引入资源 -->
+    <title>1.4.1-计算属性和监听器-计算属性</title>
     <script src='./vue@2.6.10.js'></script>
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
-        <h3>1.v-bind/v-on基本用法与缩写</h3>
+        <h3>1.计算属性</h3>
         <div>
-            <a v-bind:href="url" target="blank">点我跳转</a>
-            <button v-on:click='clickEvent'>点我</button>
-
-            <h5>缩写--效果一致</h5>
-            <a :href="url" target="blank">点我跳转</a>
-            <button @click='clickEvent'>点我</button>
-            <p>--------</p>
-        </div>
-        
-        <h3>2.动态参数</h3>
-        <!-- ★直接在一个 HTML 文件里撰写模板,动态属性/动态方法变量名必须全部小写 -->
-        <!-- 禁止使用驼峰和分割符 -->
-        <div>
-            <a v-bind:[attrname]="url" target="blank">点我跳转</a>
-            <button v-on:[eventname]="clickEvent">点我</button>
-            <h5>如果动态属性为null</h5>
-            <a v-bind:href="nullname">属性绑定将会被移除</a>
+            <h4>hello world的倒写</h5>
+            <!-- 注意msgReverse没有定义在data里 -->
+            <div>{{msgReverse}}</div>
+            <h4>不会动的当前时间</h5>
+            <!-- curTime不是通过data中的值计算出来的，相当于var a=1,的静态赋值 -->
+            <div>{{curTime}}</div>
             <p>--------</p>
         </div>
 
-        <h3>3.prevent修饰符</h3>
+        <h3>2.计算属性拓展</h3>
         <div>
-            <input type="checkbox" v-on:click='clickEvent'>可以点我</button>
-            <input type="checkbox" v-on:click='clickEvent2'>点我</button>
-            <!-- 效果和e.preventDefalut()一样 -->
-            <input type="checkbox" v-on:click.prevent='clickEvent'>点我</button>
+            <h4>hello vue的倒写</h5>
+            <div>{{proMsgReverse}}</div>
+            <button v-on:click='computedSet'>hello jikewang</button>
             <p>--------</p>
         </div>
+
+
     </div>
-
 </body>
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
-        //定义数据
         data: {
-            url: 'http://ailoveu.top',
-            attrname: 'href',
-            eventname: 'click',
-            nullname: null
-
+            msg: 'Hello World',//1 的例子
+            proMsg: 'Hello Vue',//2 的例子
+        },
+        //计算属性通过computed定义
+        computed: {
+            //1的例子
+            //
+            //计算属性通过function返回，但在模板中你可以像使用data属性一样使用计算属性，例如this.computedA,{{computedA}}
+            //★计算属性是基于它们的响应式依赖进行缓存的，只在相关响应式依赖发生改变时它们才会重新求值
+            msgReverse: function () {
+                //只要msg的值变动，msgReverse的值也会响应的变动
+                return this.msg.split('').reverse().join('');
+            },
+            //相当于a=1的赋值，curTime不具有响应式
+            curTime: function () {
+                return Date.now()
+            },
+            //2的例子
+            //
+            proMsgReverse: {
+                //1.首先的首先只要网页里面没有定义proMsgReverse，get方法怎么都不会被调用
+                //2.只有get方法里有响应式属性（如proMsg，console也算），而且属性变化了，就会执行get
+                get: function () {
+                    console.log(this.proMsg);
+                    //get方法对proMsg进行取反
+                    return this.proMsg.split('').reverse().join('');
+                },
+                //val参数接受赋值
+                set: function (val) {
+                    //可以对val进行处理
+                    this.proMsg = val;
+                }
+            }
         },
         methods: {
-            clickEvent: function(){
-                alert(`当前时间戳：${Date.now()}`);
-            },
-            clickEvent2: function(e){
-                e.preventDefault();
-                alert(`当前时间戳：${Date.now()}`);
+            //2的例子
+            //这是给计算属性赋值，不是给data属性赋值!
+            computedSet: function () {
+                // 虽然给proMsgReverse赋值是正序的，当显示的是倒序的!
+                this.proMsgReverse = 'hello wangjike'
             }
- 
         },
 
     })
