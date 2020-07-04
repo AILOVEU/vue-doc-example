@@ -22,6 +22,12 @@ this.$emit('myEvent')
 
 #### 3.动态参数、动态插槽名，禁止使用驼峰和分割符
 
+### 哪些定义是truly的
+#### v-if
+#### v-else-if
+#### v-show
+#### v-bind:class
+
 ### 项目的使用方式
 - 直接点击html，使用浏览器打开。推荐使用chrome浏览器或firefox以获取更好的用户体验
 - 如果你想在编译器中直接操作，你可以全局安装[http-server](https://www.npmjs.com/package/http-server)，使用命令http-server ./ 把当前目录作为静态资源目录来访问
@@ -42,3 +48,5 @@ md文件会尽快补上
 
 
 
+要填的坑：
+1. 监听器复杂对象的监听
