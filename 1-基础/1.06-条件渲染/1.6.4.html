@@ -4,10 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1.6.4-条件渲染-v-if和v-for使用
-
-    </title>
-    <!-- 引入资源 -->
+    <title>1.6.4-条件渲染-vif和vfor</title>
     <script src='./vue@2.6.10.js'></script>
     <style>
 
@@ -15,7 +12,6 @@
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
         <h3>1.不推荐用法</h3>
         <div>
@@ -29,7 +25,7 @@
         <h3>2.推荐用法</h3>
         <div>
             <h5>我喜欢</h5>
-            <!-- 使用计算属性，不用渲染所有列表，只有当filteredHobbies重新渲染时才进行刷新 -->
+            <!-- 使用计算属性先对hobbies进行过滤 -->
             <div v-for="hobby in filteredHobbies">
                 {{hobby.text}}
             </div>
@@ -37,61 +33,58 @@
         </div>
 
         <button v-on:click="workUpUp">我爱工作</button>
-        <button v-on:click="changeHobby">改变爱好</button>
+        <button v-on:click="changeHobby">只想看电影，想睡觉</button>
 
     </div>
 
 </body>
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
-        //定义数据
         data: {
             hobbies: [{
+                love: 5,
+                text: "工作"
+            },
+            {
+                love: 90,
+                text: "睡觉"
+            }
+            ]
+        },
+        methods: {
+            //不会触发watch
+            workUpUp: function () {
+                this.hobbies[0].love += 100;
+            },
+            //触发watch
+            changeHobby: function () {
+                this.hobbies = [{
                     love: 5,
                     text: "工作"
                 },
                 {
                     love: 90,
                     text: "睡觉"
+                }, {
+                    love: 1000,
+                    text: "看电影"
                 }
-            ]
-        },
-        methods: {
-            workUpUp: function () {
-                this.hobbies[0].love += 100;
-            },
-            changeHobby: function () {
-                this.hobbies = [{
-                        love: 5,
-                        text: "工作"
-                    },
-                    {
-                        love: 90,
-                        text: "睡觉"
-                    }, {
-                        love: 1000,
-                        text: "看电影"
-                    }
                 ]
             }
         },
         computed: {
             //对hobbies进行删选
             filteredHobbies: function () {
-                console.log('hobbies 改变了');
                 // filter括号内为一个方法
                 return this.hobbies.filter(function (hobby) {
-                    // 返回一个true of false
+                    // 返回一个true or false
                     return hobby.love > 60;
                 })
             }
         },
         watch: {
-            // 改变对象内元素值不会引发该方法
+            // 顺便一提，这样写改变对象内元素值不会引发该方法
             hobbies: function (val) {
                 console.log(val);
                 console.log('爱好更新了');
