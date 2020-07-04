@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1.5.1-Class与Style-htmlClass</title>
+    <title>1.5.1-Class与Style-bindclass</title>
     <script src='./vue@2.6.10.js'></script>
     <style>
         .redC {
@@ -13,7 +13,7 @@
         .bigFont {
             font-size: 50px;
         }
-        .borderClass{
+        .borderClass {
             border: 3px solid blue;
         }
     </style>
@@ -23,7 +23,9 @@
     <div id="app">
         <h3>1.基本用法</h3>
         <div>
+            <!-- 使用v-bind:class定义css属性值 -->
             <div v-bind:class="{redC: isRed, 'bigFont':isBig}">这是一段文字</div>
+            <!-- 使用checkbox简单的置true or false -->
             <input type="checkbox" v-model='isRed' />red
             <input type="checkbox" v-model='isBig' />big-font
             <p>--------</p>
@@ -31,7 +33,9 @@
 
         <h3>2.推荐用法</h3>
         <div>
+            <!-- 使用一个prop统一定义css -->
             <div v-bind:class="styleObj">这是一段文字</div>
+            <!-- v-model绑定styleObj子属性 -->
             <input type="checkbox" v-model='styleObj.redC' />red
             <!-- ？如果这里的bigFont才用的是big-font的形式，要怎么写呢 -->
             <input type="checkbox" v-model="styleObj.bigFont" />big-font
@@ -40,9 +44,12 @@
 
         <h3>3.数组用法</h3>
         <div>
+            数组用来定义多个
             <!-- 数组中包含的是类的名字 -->
             <!-- 数组中可以包含基本用法 -->
-            <div v-bind:class="[redClass,isBigClass?bigClass:'',{borderClass:hasBorder}]">这是一段文字</div>
+            <div v-bind:class="['redC',
+                isBigClass?'bigFont':'',
+                {borderClass:hasBorder}]">这是一段文字</div>
             <input type="checkbox" v-model="isBigClass" />big-font
             <input type="checkbox" v-model="hasBorder" />hasBorder
             <p>--------</p>
@@ -53,8 +60,8 @@
 <script>
     var vm = new Vue({
         el: '#app',
-        //定义数据
         data: {
+            //★prop只要是truthy，class就会被渲染
             //1.基本用法 用例
             isRed: true,
             isBig: false,
@@ -62,13 +69,11 @@
             styleObj: {
                 redC: true,
                 // 如果这里用big-font的形式，在模板里需要怎么写，热心的网友帮忙解答下
-                'bigFont': false,
+                bigFont: false,
             },
             //3.数组用法 用例
-            redClass: 'redC',
-            bigClass: 'bigFont',
             isBigClass: false,
-            hasBorder: false
+            hasBorder: false,
         },
     })
 </script>
