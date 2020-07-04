@@ -4,10 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1.6.3-条件渲染-vShow
-
-    </title>
-    <!-- 引入资源 -->
+    <title>1.6.3-条件渲染-vshow</title>
     <script src='./vue@2.6.10.js'></script>
     <style>
 
@@ -15,10 +12,8 @@
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
         <h3>1.基本用法</h3>
-        <!-- ★ v-show 不支持 <template> 元素，也不支持 v-else -->
         <div>
             <div v-show="show">这是一段话</div>
             <p>--------</p>
@@ -41,19 +36,11 @@
 
 </body>
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
-        //定义数据
         data: {
             seen: true && "show" && 2 ,//"" 为false
         },
-        methods: {
-
-        },
-
     })
 </script>
 

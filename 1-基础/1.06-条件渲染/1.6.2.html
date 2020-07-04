@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1.6.2-条件渲染-key属性</title>
-    <!-- 引入资源 -->
     <script src='./vue@2.6.10.js'></script>
     <style>
 
@@ -13,13 +12,12 @@
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
-        <h3>1.加key属性</h3>
+        <h3>1.不加key属性</h3>
         <div>
             <div v-if="isEmail">
                 <label>邮箱：</label>
-                <input />
+                <input/>
             </div>
             <div v-else>
                 <label>手机：</label>
@@ -29,8 +27,9 @@
             <p>--------</p>
         </div>
 
-        <h3>2.不加key属性</h3>
+        <h3>2.加key属性</h3>
         <div>
+            <!-- 添加key属性，两个元素是完全独立的 -->
             <div v-if="isEmail2">
                 <label>邮箱：</label>
                 <input key="email"/>
@@ -46,16 +45,12 @@
 
 </body>
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
-        //定义数据
         data: {
+            //分别控制显示电子邮箱还是手机号
             isEmail: true,
             isEmail2: true
-
         },
         methods: {
             switchType: function(){
@@ -64,7 +59,6 @@
             switchType2: function(){
                 this.isEmail2 = !this.isEmail2;
             }
-
         },
 
     })

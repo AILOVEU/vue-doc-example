@@ -4,21 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1.6.1-条件渲染-vIf</title>
-    <!-- 引入资源 -->
+    <title>1.6.1-条件渲染-vif</title>
     <script src='./vue@2.6.10.js'></script>
-    <style>
-
-    </style>
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
-        <h3>1.基本用法</h3>
+        <h3>基本用法</h3>
         <div>
             <div v-if="show1">第一段话</div>
-            <!-- v-else-if必须跟再v-if或v-else-if后面 -->
             <div v-else-if="show2">第二段话</div>
             <div v-else>第三段话</div>
             <p>--------</p>
@@ -28,21 +22,13 @@
 
 </body>
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
-        //定义数据
         data: {
+            //表达式返回 truthy 值的时候被渲染
             show1: true && "123" && 1 ,// "" 为 false
             show2: true
         },
-        methods: {
-
-
-        },
-
     })
 </script>
 
