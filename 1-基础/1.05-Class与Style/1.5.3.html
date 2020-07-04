@@ -4,28 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1.5.3-Class与Style-bindStyle</title>
-    <!-- 引入资源 -->
+    <title>1.5.3-Class与Style-bindstyle</title>
     <script src='./vue@2.6.10.js'></script>
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
+        <!-- 这次没有定义<style></style> -->
         <h3>1.基本用法</h3>
         <div>
+            <!-- 绑定内联样式，redC是可以改变的 -->
             <div v-bind:style="{color: redC,fontSize: bigFont}">这是一段话</div>
             <p>--------</p>
         </div>
 
         <h3>2.推荐用法</h3>
         <div>
+            <!-- 和class一样，styleObj是一个定义css样式的对象 -->
             <div v-bind:style="styleObj">这是一段话</div>
             <p>--------</p>
         </div>
 
         <h3>3.数组用法</h3>
         <div>
+            <!-- 可以定义多个样式对象，如果有有重推的样式，比如颜色，后面的值会覆盖前面的 -->
             <div v-bind:style="[baseStyle, proStyle]">这是一段话</div>
             <p>--------</p>
         </div>
@@ -33,19 +35,18 @@
 
 </body>
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
-        //定义数据
         data: {
+            //1.基本用法
             redC: 'red',
             bigFont: '50px',
+            //2.推荐用法
             styleObj: {
                 color: 'red',
                 fontSize: '50px'
             },
+            //3.数组用法
             baseStyle: {
                 color: 'red'
             },
@@ -53,12 +54,7 @@
                 color: 'blue',
                 fontSize: '50px',
             }
-        },
-        methods: {
-
-        },
-        components: {}
-
+        }
     })
 </script>
 
