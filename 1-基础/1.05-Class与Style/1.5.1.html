@@ -5,13 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1.5.1-Class与Style-htmlClass</title>
-    <!-- 引入资源 -->
     <script src='./vue@2.6.10.js'></script>
     <style>
         .redC {
             color: red;
         }
-
         .bigFont {
             font-size: 50px;
         }
@@ -22,7 +20,6 @@
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
         <h3>1.基本用法</h3>
         <div>
@@ -48,18 +45,13 @@
             <div v-bind:class="[redClass,isBigClass?bigClass:'',{borderClass:hasBorder}]">这是一段文字</div>
             <input type="checkbox" v-model="isBigClass" />big-font
             <input type="checkbox" v-model="hasBorder" />hasBorder
-
             <p>--------</p>
         </div>
-
     </div>
 
 </body>
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
         //定义数据
         data: {
@@ -78,11 +70,6 @@
             isBigClass: false,
             hasBorder: false
         },
-        methods: {
-
-
-        },
-
     })
 </script>
 

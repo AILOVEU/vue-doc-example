@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.4.2-计算属性和监听器-监听器</title>
+    <script src='./vue@2.6.10.js'></script>
+</head>
+
+<body>
+    <div id="app">
+        <h3>监听属性</h3>
+        <div>
+            <input type='number' v-model='firstNum' />+<input type='number' v-model='SecondNum' />={{sum}}
+        </div>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            firstNum: 0,
+            SecondNum:0,
+            sum: 0
+        },
+
+        //监听属性通过watch定义
+        //watch的使用场景是当需要在数据变化时执行异步或开销较大的操作时
+        watch: {
+            //只要firstNum变化，就执行这个方法
+            //如果SecondNum变化，是不会执行这个方法的
+            firstNum: function (newVal,oldVal) {
+                console.log(newVal,oldVal);
+                this.sum = parseInt(this.firstNum) + parseInt(this.SecondNum);
+            },
+            SecondNum: function (newVal,oldVal) {
+                console.log(newVal,oldVal);
+                this.sum = parseInt(this.firstNum) + parseInt(this.SecondNum);
+            },
+        }
+
+    })
+</script>
+
+</html>
