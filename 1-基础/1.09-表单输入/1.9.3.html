@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.9.3-表单输入-值绑定</title>
+    <script src='./vue@2.6.10.js'></script>
+</head>
+
+<body>
+    <div id="app">
+        <h3>1.基本用法</h3>
+        <div>
+            <h5>复选框checkbox</h5>
+            <!-- 修改默认的checkbox的默认值true、false为yes、no -->
+            <!-- true-value可以写成v:bind:true-value -->
+            <input type="checkbox" v-model="toggle" true-value="yes" v-bind:false-value="'no'">
+            选值：{{toggle}}
+            <p>--------</p>
+
+            <h5>单选</h5>
+            <!-- 修改默认value值为变量 -->
+            <input type="radio" v-model="pick" v-bind:value="aaa">
+            <input type="radio" v-model="pick" v-bind:value="bbb">
+            选值：{{pick}}
+            <p>--------</p>
+
+            <h5>选择框的选项</h5>
+            <select v-model="selected">
+                <!-- 内联对象字面量 -->
+                <option v-bind:value="{ number: 1 }">1</option>
+                <option v-bind:value="{ number: 2 }">2</option>
+            </select>
+            <!-- typeof vm.selected // => 'object' -->
+            <!-- vm.selected.number // => 123 -->
+            选值：{{selected.number}}
+            <p>--------</p>
+        </div>
+
+    </div>
+
+</body>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            //checkbox的值，原为'true'、'false'，更改完后为'yes','no'
+            toggle: '',
+            //如果选中aaa，则vm.pick == vm.aaa
+            pick: '',
+            //动态value值
+            aaa: 'a',
+            bbb: 'b',
+            //选中的数据，通过v-bind:value内联对象字面量赋值
+            selected: ''
+        },
+        watch: {
+            //可以看到selected的变化
+            selected: function(newVal,oldVal){
+                console.log(newVal);
+                console.log(oldVal);
+            }
+        }
+    })
+</script>
+
+</html>
