@@ -4,63 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1.9.2-表单输入-值绑定</title>
-    <!-- 引入资源 -->
+    <title>1.9.2-表单输入-修饰符</title>
     <script src='./vue@2.6.10.js'></script>
-    <style>
-
-    </style>
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
-        <h3>1.基本用法</h3>
+        <h3>修饰符</h3>
         <div>
-            <h5>复选框</h5>
-            <!-- true-value可以写成v:bind:true-value -->
-            <input type="checkbox" v-model="toggle" true-value="yes" false-value="no">
-            选值：{{toggle}}
+            <h5>lazy</h5>
+            <!-- 将焦点移出input -->
+            <input v-model.lazy="lazyMsg">
+            输入值：{{lazyMsg}}
             <p>--------</p>
 
-            <h5>单选</h5>
-            <input type="radio" v-model="pick" v-bind:value="aaa">
-            <input type="radio" v-model="pick" v-bind:value="bbb">
-            选值：{{pick}}
+            <h5>number</h5>
+            <!-- number可以理解为parseFloat(age),如果不能解析，如“123abc123”，只能解析到123，而不是123123 -->
+            <!-- 添加type为number，程序会更加健全 -->
+            <input v-model.number="age"/>
+            输入值：{{age}}
             <p>--------</p>
 
-            <h5>选择框的选项</h5>
-            <select v-model="selected">
-                <!-- 内联对象字面量 -->
-                <option v-bind:value="{ number: 1 }">1</option>
-                <option v-bind:value="{ number: 2 }">2</option>
-            </select>
-            选值：{{selected.number}}
+            <h5>trim</h5>
+            <input v-model.trim="trimMsg">
+            你输入的值：|{{trimMsg}}|
             <p>--------</p>
         </div>
-
     </div>
 
 </body>
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
-        //定义数据
         data: {
-            toggle: '',
-            pick: '',
-            aaa: 'aaa',
-            bbb: 'bbb',
-            selected: []
-        },
-        methods: {
-
-
-        },
-
+            lazyMsg: '',
+            age:'',
+            trimMsg: ''
+        }
     })
 </script>
 
