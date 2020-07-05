@@ -4,16 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1.10.1-组件入门-基本示例</title>
-    <!-- 引入资源 -->
+    <title>1.10.2-组件入门-子组件</title>
     <script src='./vue@2.6.10.js'></script>
-    <style>
-
-    </style>
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
         <h3>定义一个组件</h3>
         <div>
@@ -24,9 +19,12 @@
 
     <template id='parent'>
         <div>
+            <button v-on:click="changeParentMsg('来自父组件的更新',$event)"> 点我改变父组件</button>
+            <br/>
             父组件：{{parentMsg}}
-            <button v-on:click="changeParentMsg('变秃了。。',$event)"> 点我改变父组件</button>
-            <!-- 将父组件的parentMsg映射为子组件的childMsg(可以理解为左赋值，childMsg之前没有值，被赋成了parentMsg的值) -->
+            <!-- v-bind一般为属性赋值，可以理解为子组件的child-msg属性设置为parentMsg -->
+            <!-- html是忽略大小写的，所以自定义事件应该采用kebab-case格式 -->
+            <!-- v-on:change-parent-msg可以理解为子组件可访问change-parent-msg事件，通过emit调用父组件对应事件 -->
             <!-- 父级组件监听这个事件的时候，我们可以通过 $event 访问到被抛出的这个值 -->
             <child-component v-bind:child-msg="parentMsg" v-on:change-parent-msg="changeParentMsg"></child-component>
         </div>
@@ -36,32 +34,16 @@
         <div>
             <!-- childMsg对于子组件来说已经是可读的了 -->
             <div>子组件：{{childMsg}}</div>
-            <button v-on:click="changeChildMsg('又秃了一大截。。。',$event)">点我改变子组件</button>
-
+            <button v-on:click="changeChildMsg('来自子组件的赋值',$event)">点我改变子组件</button>
         </div>
     </template>
-
-
 </body>
-
-
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
-        //定义数据
-        data: {
-
-        },
-        methods: {
-
-        },
         components: {
-            //使用template标签定义组件
+            //定义父组件
             'parent-component': {
-                //一个组件的 data 选项必须是一个函数，因此每个实例可以维护一份被返回对象的独立的拷贝
                 data: function () {
                     return {
                         parentMsg: '这是父组件的信息'
@@ -74,6 +56,7 @@
                     }
                 },
                 template: '#parent',
+                // 定义子组件
                 components: {
                     'child-component': {
                         //子组件没有定义data，而是使用props接受父组件的传值
@@ -87,13 +70,9 @@
                             }
                         },
                         template: '#child',
-                        
                     },
-
                 }
             }
-
-
         }
     })
 </script>
