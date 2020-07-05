@@ -36,7 +36,7 @@ v-bind:后的属性名使用kebab-case格式，在子组件的props中使用came
 ### 学习路线
 - [vue](https://github.com/AILOVEU/vue-doc-example)
 - [vue-cli](https://github.com/AILOVEU/vue-cli-doc-example)（计划中）
-- [vue-router](https://github.com/AILOVEU/vue-router-doc-example)（暂时未公开）
+- [vue-router](https://github.com/AILOVEU/vue-router-doc-example)
 - [vuex](https://github.com/AILOVEU/vuex-doc-example) （暂时未公开）
 - [vue-ssr](https://github.com/AILOVEU/vue-ssr-doc-example)（计划中）
 
