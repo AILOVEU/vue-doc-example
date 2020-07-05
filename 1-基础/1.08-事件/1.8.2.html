@@ -5,15 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1.8.2-事件-事件修饰符</title>
-    <!-- 引入资源 -->
     <script src='./vue@2.6.10.js'></script>
-    <style>
-
-    </style>
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
         <h3>1.基本用法（需要打开console）</h3>
         <div>
@@ -63,17 +58,17 @@
             <h5>6.passive</h5>
             <!-- 阻止检查事件是否设置了preventDefault -->
             <!-- 加上passive就是为了告诉浏览器，不用查询了，我们没用preventDefault阻止默认动作 -->
-            <!-- 擅长场景：touchmove 、scroll -->
+            <!-- 应用场景：touchmove 、scroll，加快相应速度 -->
             <!-- ★passive和prevent冲突，不能同时绑定在一个监听器上 -->
             <button v-on:click.passive="click6">passive</button>
             <p>--------</p>
 
         </div>
 
-        <h3>2.修饰符组合</h3>
-        <!-- 可能说的不对，大家补充 -->
+        <h3>2.self和prevent组合</h3>
         <!-- 官网说：用 v-on:click.prevent.self 会阻止所有的点击，而 v-on:click.self.prevent 只会阻止对元素自身的点击。 -->
-        <!-- 人话：用 v-on:click.prevent.self 会阻止元素所有点击的默认事件，而 v-on:click.self.prevent 只在本身触发时才会阻止默认事件 -->
+        <!-- 人话：用 v-on:click.prevent.self 会阻止元素所有点击的默认事件，另外具有self的特性；
+            而 v-on:click.self.prevent 只阻止本身触发时默认事件 -->
 
         <div>
             <h5>1.先看看不加修饰符</h5>
@@ -89,8 +84,7 @@
             <h5>2.prevent.self</h5>
             <!-- 点击白色，3-1 -->
             <!-- 点击文字，2-1 -->
-            <!-- 总结：只有本身触发才执行，阻止自身默认事件 -->
-            <!-- self修饰的是没有默认事件的click事件 -->
+            <!-- 总结：本身及冒泡上来的事件都会阻止该标签的默认事件，self说明只有本身事件才会触发 -->
             <div v-on:click="myFunc('self-1')" style="width:100px;height:100px;background-color:blanchedalmond;">
                 <a href="http://ailoveu.top" v-on:click.prevent.self="myFunc('self-2')" >
                     a标签
@@ -102,8 +96,7 @@
             <h5>2.self.prevent</h5>
             <!-- 点击白色，3-1-默认事件 -->
             <!-- 点击文字，2-1 -->
-            <!-- 总结:  阻止本身触发时的默认事件（prevent阻止self click），所以本身触发时click.self被prevent了-->
-            <!-- prevent只修饰“本身触发”这个事件，如果不是self的click仍然会执行默认事件 -->
+            <!-- 总结:  只阻止本身触发时的默认事件。冒泡上来的默认事件仍会执行，因为不是self，所以后面的prevent被忽略了-->
             <div v-on:click="myFunc('self-1')" style="width:100px;height:100px;background-color:blanchedalmond;">
                 <a href="http://ailoveu.top" v-on:click.self.prevent="myFunc('self-2')" >
                     a标签
@@ -112,41 +105,34 @@
                 </a >
             </div>
             <p>--------</p>
-
         </div>
-
     </div>
 
 </body>
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
-        //定义数据
         data: {
+            //1.stop阻止冒泡
             myFunc:function(msg){
                 alert(msg);
             },
             click1: function(){
                 console.log('stop');
             },
+            // 2.prevent
             click2: function(e){
                 console.log('prevent');
             },
+            // 5.once
             click5: function(msg,e){
                 console.log('once');
             },
+            // 6.passive
             click6: function(msg,e){
                 console.log('passive');
             },
         },
-        methods: {
-
-
-        },
-
     })
 </script>
 
