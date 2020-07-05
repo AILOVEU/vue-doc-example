@@ -1,7 +1,7 @@
 # vue-doc-example
 vue非官方文档示例(全)
 
-所有代码基于vue@2.6.10版本
+所有代码基于vue@2.6.10版本。推荐食用方式，先看官方文档，如果有觉得没讲明白的，可以到我这里来看看。
 
 每章节包括一个md说明文件以及一个html代码文件。原则是md文件尽可能的详细，并对官方文档进行补充；html文件尽可能的简单，最大化的将所有可能列出来,给予最直观的反馈。
 
@@ -18,7 +18,8 @@ this.$emit('myEvent')
 <my-component v-on:my-event="doSomething"></my-component>
 不同于组件和 prop，事件名不会被用作一个 JavaScript 变量名或 property 名，所以就没有理由使用 camelCase 或 PascalCase 了。并且 v-on 事件监听器在 DOM 模板中会被自动转换为全小写 (因为 HTML 是大小写不敏感的)，所以 v-on:myEvent 将会变成 v-on:myevent——导致 myEvent 不可能被监听到。
 
-#### 2.props属性使用camelCase格式
+#### 2.props属性使用camelCase格式，v-bind后属性名使用kebab-case格式。
+v-bind:后的属性名使用kebab-case格式，在子组件的props中使用camelCase格式，因为html标签的属性名不区分大小写，所以vue会对camelCase格式转kebab-case格式。
 
 #### 3.动态参数、动态插槽名，禁止使用驼峰和分割符
 
@@ -50,3 +51,5 @@ md文件会尽快补上
 
 要填的坑：
 1. 监听器复杂对象的监听
+2. 1.7.2 数组方法等我总体整理后再补充
+3. 1.9.1 input输入绑定
