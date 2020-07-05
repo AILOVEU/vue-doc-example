@@ -4,41 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1.7.3-列表渲染-嵌套循环过滤</title>
-    <!-- 引入资源 -->
+    <title>1.7.4-列表渲染-组件循环</title>
     <script src='./vue@2.6.10.js'></script>
-    <style>
-
-    </style>
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
         <h5>如果循环对象是一个整数</h5>
         <div>
-            <!-- 将childitem作为item的昵称映射给子组件 -->
-            <!-- 组件props字段负责记录 -->
-            <for-component v-for="item in obj1"  v-bind:childitem="item"></for-component>
+            <!-- 子组件绑定的childitem属性值设置为item -->
+            <!-- 循环的含义可以理解为在子组件template上执行v-for循环，item换个名字为childitem -->
+            <for-component v-for="item in obj1"  v-bind:child-item="item"></for-component>
         </div>
     </div>
 
-    <!-- 看不懂也没关系，在进阶组件部分将会有更多的实例 -->
+    <!-- 定义子组件模板 -->
     <template id="for">
         <li>
-            <!-- 组件中拿到昵称childitem -->
-            {{childitem}}
+            <!-- 子组件中拿到childitem -->
+            {{childItem}}
         </li>
     </template>
 
 </body>
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
-        //定义数据
         data: {
             obj1: [{
                     message: 'B'
@@ -48,17 +39,11 @@
                 }
             ],
         },
-        methods: {
-
-        },
         components: {
             // 定义组件名
             'for-component': {
-                data: function () {
-                    return { }
-                },
                 //记录字段
-                props: ['childitem'],
+                props: ['childItem'],
                 //定义模板 -- 通过id查询的方式，获取html中id为for的template
                 template: '#for'
             }

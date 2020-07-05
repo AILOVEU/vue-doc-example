@@ -5,15 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1.8.3-事件-键盘事件</title>
-    <!-- 引入资源 -->
     <script src='./vue@2.6.10.js'></script>
-    <style>
-        
-    </style>
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
         <h3>1.按键修饰符</h3>
         <div>
@@ -30,8 +25,9 @@
                 v-on:keyup.left="alert('left')" />
             <p>--------</p>
             <h5>tab</h5>
-            <!-- 一个有意思的现象是，你在这里按tab不起作用，需要在上一个input中按tab -->
-            <input v-on:keyup.tab="alert('tab')" />
+            <input placeholder="这里按tab"/>
+            <!-- 在这里按tab不起作用，需要在上一个input中按tab -->
+            <input v-on:keyup.tab="alert('tab')"  placeholder="事件定义在这里"/>
             <p>--------</p>
             <h5>esc</h5>
             <input v-on:keyup.esc="alert('esc')" />
@@ -74,39 +70,33 @@
         </div>
 
         <h3>5.鼠标按键事件</h3>
-        <!-- .exact 修饰符允许你控制由精确的系统修饰符组合触发的事件。 -->
         <div>
             <div v-on:click.left="alert('鼠标左键点击')">鼠标左键点击</div>
             <div v-on:click.right="alert('鼠标右键点击')">鼠标右键点击</div>
             <!-- ？firefox上测试点击左键会触发，而滚轮不会触发，不清楚为什么 -->
             <div v-on:click.middel="alert('鼠标中键点击')">鼠标中键点击</div>
-
             <p>--------</p>
         </div>
     </div>
 
 </body>
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
-        //定义数据
         data: {
             phone: '',
             password: ''
         },
         methods: {
+            //1.按键修饰符 - 密码回车
             commit: function (e) {
                 console.log(e); //e.key == Enter
-
                 alert('已提交');
             },
+            //看来vue没有对alert方法进行处理，需要我们处理下
             alert: function (msg) {
                 alert(msg);
             },
-
         },
 
     })

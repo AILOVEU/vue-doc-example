@@ -5,20 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1.7.2-列表渲染-数组更新 copy</title>
-    <!-- 引入资源 -->
     <script src='./vue@2.6.10.js'></script>
-    <style>
-
-    </style>
 </head>
 
 <body>
-    <!-- 定义根DOM元素 -->
     <div id="app">
         <h3>1.数组更新</h3>
         <!-- 执行这些方法，会导致原数组数据变化 -->
         <div>
-            <!-- 不要使用对象或数组之类的非基本类型值作为 v-for 的 key。请用字符串或数值类型的值 -->
+            <!-- 不要使用对象或数组之类的非基本类型值作为 v-for 的 key。用字符串或数值类型的值 -->
             <div v-for="item in obj1" v-bind:key="item.message">
                 {{item}}
             </div>
@@ -26,21 +21,20 @@
             <button v-on:click="pop">pop</button>
             <button v-on:click="shift">shift</button>
             <button v-on:click="unshift">unshift</button>
-            <button v-on:click="splice">splice</button>
+            <button v-on:click="splice">splice(0,2)</button>
             <button v-on:click="sort">sort</button>
             <button v-on:click="reverse">reverse</button>
             <p>--------</p>
         </div>
 
         <h3>2.数组替换</h3>
-
         <div>
             <div v-for="item in obj2" v-bind:key="item.message">
                 {{item}}
             </div>
-            <button v-on:click="filter">filter</button>
+            <button v-on:click="filter">filter-包含C</button>
             <button v-on:click="concat">concat</button>
-            <button v-on:click="slice">slice</button>
+            <button v-on:click="slice">slice(1,2)</button>
             <p>--------</p>
         </div>
 
@@ -49,12 +43,8 @@
 
 </body>
 <script>
-    //使用new Vue创建一个Vue实例
-    //一般将Vue实例叫做vm
     var vm = new Vue({
-        //Vue 实例使用的根 DOM 元素
         el: '#app',
-        //定义数据
         data: {
             obj1: [{
                     message: 'B'
